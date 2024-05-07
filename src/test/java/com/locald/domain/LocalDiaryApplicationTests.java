@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.locald.domain;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
