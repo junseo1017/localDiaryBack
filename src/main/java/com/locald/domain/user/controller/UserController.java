@@ -1,20 +1,29 @@
 package com.locald.domain.user.controller;
 
+import com.locald.domain.user.domain.User;
+import com.locald.domain.user.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class UserController {
 
+    @Autowired
+    UserService userService;
+
     @GetMapping("/user/main")
-    public String getMainPage(Model model) {
+    public String getMainPage() {
         try {
-            Thread.sleep(2000);
-            return "on";
+            User user = new User();
+            Long saveId = userService.save();
+            return saveId.toString();
         } catch (Exception e) {
-            throw new RuntimeException("This is a deliberate exception.");
+            throw new RuntimeException(e.getCause());
         }
     }
 
