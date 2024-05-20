@@ -2,47 +2,49 @@ package com.locald.domain.user.controller;
 
 import com.locald.domain.user.domain.User;
 import com.locald.domain.user.service.UserService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
 
-    @GetMapping("/user/main")
-    public String getMainPage() {
+    @PostMapping("/signin")
+    @ResponseBody
+    public User singIn(@RequestBody User user) {
         try {
-            User user = new User();
-            Long saveId = userService.save();
-            return saveId.toString();
-        } catch (Exception e) {
-            throw new RuntimeException(e.getCause());
-        }
-    }
-
-    @GetMapping("/user/signin")
-    public String signin(Model model) {
-        try {
-            Thread.sleep(1000);
-            return "token";
+            log.info("user={}",user);
+            User accessUser = userService.signIn(user);
+            return accessUser;
         } catch (Exception e) {
             throw new RuntimeException("This is a deliberate exception.");
         }
     }
 
     @PostMapping("/user/signup")
-    public String signup(Model model) {
+    public String addUser(Model model) {
         try {
             return "token";
         } catch (Exception e) {
             throw new RuntimeException("This is a deliberate exception.");
         }
+    }
+
+
+    /**
+     * Test Method
+     */
+    @PostConstruct
+    public void CreateData(){
+        User user = User.builder().email("test@test.com").password("123").name("test1").build();
+        userService.addUser(user);
     }
 }

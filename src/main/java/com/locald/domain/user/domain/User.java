@@ -8,9 +8,11 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor
+@AllArgsConstructor // to use @Builder
 @NoArgsConstructor(force = true)
+@ToString
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
