@@ -1,13 +1,12 @@
 package com.locald.domain.user.service;
 
-import com.locald.domain.user.dao.UserRepository;
+import com.locald.domain.user.repository.UserRepository;
 import com.locald.domain.user.domain.User;
+import com.locald.domain.user.dto.UserSigninForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -19,14 +18,9 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User signIn(User user){
+    public User signIn(UserSigninForm user){
         User findUser = userRepository.getUsersByEmailAndPassword(user.getEmail(), user.getPassword());
-        log.debug("findUser={}",findUser);
-        if(findUser==null){
-            return null;
-        } else {
-            return findUser;
-        }
+        return findUser;
     }
 
 }
