@@ -16,7 +16,7 @@ public class UserExceptionHandler {
     @ExceptionHandler({MethodArgumentNotValidException.class,UserException.class})
     public ResponseEntity<UserSigninErrorResult> signInErrorHandler() {
         log.error("signInErrorHandler Execute");
-        UserSigninErrorResult userErrorResult = new UserSigninErrorResult(false, "入力形式が間違っています。ID又はパスワードを確認してください。");
+        UserSigninErrorResult userErrorResult = new UserSigninErrorResult("入力形式が間違っています。ID又はパスワードを確認してください。");
         return new ResponseEntity<>(userErrorResult,HttpStatus.BAD_REQUEST);
     }
 
@@ -24,7 +24,7 @@ public class UserExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<UserSigninErrorResult> runtimeErrorHandler(RuntimeException rEx) {
         log.error("RuntimeException={}",rEx);
-        UserSigninErrorResult userErrorResult = new UserSigninErrorResult(false, "サーバーとの接続が不安定です。しばらくしてから再度お試しください。");
+        UserSigninErrorResult userErrorResult = new UserSigninErrorResult("サーバーとの接続が不安定です。しばらくしてから再度お試しください。");
         return new ResponseEntity<>(userErrorResult,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
